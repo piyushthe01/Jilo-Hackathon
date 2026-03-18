@@ -1,0 +1,63 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background:
+    radial-gradient(circle at top right, rgba(255, 156, 233, 0.14), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(255, 141, 161, 0.12), transparent 32%),
+    #1f1f1f;
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+  background: linear-gradient(135deg, #1f1f1f, #2a1f2d);
+}
+
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  flex-shrink: 0;
+}
+
+.sidebar-mobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar-desktop {
+    display: none !important;
+  }
+
+  .sidebar-mobile {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  }
+
+  .app-main {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar-mobile-nav nav {
+    display: grid;
+    gap: 8px;
+  }
+
+  .sidebar-mobile-bar p:last-child {
+    font-size: 16px !important;
+  }
+
+  .sidebar-mobile-nav nav a {
+    margin: 0 !important;
+  }
+}
