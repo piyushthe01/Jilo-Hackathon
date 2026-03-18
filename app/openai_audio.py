@@ -97,26 +97,37 @@ def normalize_audio_language_hint(language_hint: str | None):
 def transcribe_patient_audio(audio_base64: str, audio_filename: str, language_hint: str | None = None):
     filename = _validate_audio_filename(audio_filename)
     audio_bytes = _decode_audio(audio_base64)
-    audio_file = io.BytesIO(audio_bytes)
-    audio_file.name = filename
     normalized_language_hint = normalize_audio_language_hint(language_hint)
+    client = _get_client()
 
-    transcription_kwargs = {
-        "model": TRANSCRIPTION_MODEL,
-        "file": audio_file,
-    }
-    if normalized_language_hint:
-        transcription_kwargs["language"] = normalized_language_hint
+    def _run_transcription(hint: str | None):
+        audio_file = io.BytesIO(audio_bytes)
+        audio_file.name = filename
 
-    transcription = _get_client().audio.transcriptions.create(**transcription_kwargs)
-    transcript_text = getattr(transcription, "text", None)
-    if not transcript_text and isinstance(transcription, dict):
-        transcript_text = transcription.get("text")
+        transcription_kwargs = {
+            "model": TRANSCRIPTION_MODEL,
+            "file": audio_file,
+        }
+        if hint:
+            transcription_kwargs["language"] = hint
 
-    if not transcript_text:
-        raise RuntimeError("OpenAI did not return a transcript.")
+        transcription = client.audio.transcriptions.create(**transcription_kwargs)
+        transcript_text = getattr(transcription, "text", None)
+        if not transcript_text and isinstance(transcription, dict):
+            transcript_text = transcription.get("text")
 
-    return transcript_text.strip()
+        if not transcript_text:
+            raise RuntimeError("OpenAI did not return a transcript.")
+
+        return transcript_text.strip()
+
+    try:
+        return _run_transcription(normalized_language_hint)
+    except Exception:
+        if not normalized_language_hint:
+            raise
+
+    return _run_transcription(None)
 
 
 def normalize_followup_transcript(transcript: str, language_hint: str | None = None):

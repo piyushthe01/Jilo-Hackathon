@@ -92,15 +92,19 @@ This is the strongest demo sequence for judges:
 ## System Flow
 
 ```mermaid
-flowchart LR
-    A["Patient record + preferred language"] --> B["Workflow Builder"]
-    B --> C["Prepared AI follow-up call"]
-    C --> D["Patient voice response"]
-    D --> E["Speech transcription + normalization"]
-    E --> F["Symptom extraction + risk engine"]
-    F --> G["Alerts + reports + follow-up history"]
-    G --> H["Dashboard / Inbox / Care team action"]
+flowchart TD
+    A[Patient Record] --> B[Workflow Assignment]
+    B --> C[AI Follow-Up Call]
+    C --> D[Patient Voice Response]
+    D --> E[Transcription]
+    E --> F[Symptom and Risk Analysis]
+    F --> G[Alerts and Reports]
+    G --> H[Care Team Action]
 ```
+
+Plain-English flow:
+
+`Patient record -> workflow assignment -> AI follow-up call -> patient voice response -> transcription -> symptom/risk analysis -> alerts/reports -> care team action`
 
 ## Tech Stack
 

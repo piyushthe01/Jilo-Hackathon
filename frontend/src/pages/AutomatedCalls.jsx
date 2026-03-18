@@ -231,10 +231,9 @@ function AutomatedCalls() {
   const cardStyle = {
     padding: "22px",
     borderRadius: "18px",
-    background:
-      "linear-gradient(135deg, rgba(255,194,186,0.08), rgba(255,156,233,0.08))",
+    background: theme.gradients.panel,
     border: `1px solid ${theme.colors.border}`,
-    boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+    boxShadow: theme.shadows.panel,
   };
 
   const buttonStyle = (variant = "primary") => ({
@@ -260,7 +259,7 @@ function AutomatedCalls() {
         padding: "32px",
         minHeight: "100vh",
         color: theme.colors.text,
-        background: "linear-gradient(135deg, #1f1f1f, #2a1f2d)",
+        background: theme.gradients.page,
       }}
     >
       <h1 style={{ fontSize: "48px", marginBottom: "12px" }}>

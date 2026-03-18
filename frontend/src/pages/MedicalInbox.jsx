@@ -193,15 +193,15 @@ function MedicalInbox() {
     padding: "32px",
     minHeight: "100vh",
     color: theme.colors.text,
-    background: "linear-gradient(135deg, #1f1f1f, #2a1f2d)"
+    background: theme.gradients.page
   };
 
   const cardStyle = {
     padding: "22px",
     borderRadius: "18px",
-    background: "linear-gradient(135deg, rgba(255,194,186,0.08), rgba(255,156,233,0.08))",
+    background: theme.gradients.panel,
     border: `1px solid ${theme.colors.border}`,
-    boxShadow: "0 8px 24px rgba(0,0,0,0.25)"
+    boxShadow: theme.shadows.panel
   };
 
   const inputStyle = {
@@ -314,7 +314,7 @@ function MedicalInbox() {
                   textAlign: "left",
                   cursor: "pointer",
                   background: isSelected
-                    ? "linear-gradient(135deg, rgba(255,141,161,0.22), rgba(173,86,196,0.2))"
+                    ? theme.gradients.panelStrong
                     : cardStyle.background,
                   border: isSelected ? `1px solid ${theme.colors.accent}` : cardStyle.border
                 }}

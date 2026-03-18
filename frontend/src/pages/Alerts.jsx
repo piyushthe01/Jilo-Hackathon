@@ -23,15 +23,15 @@ function Alerts() {
     padding: "32px",
     minHeight: "100vh",
     color: theme.colors.text,
-    background: "linear-gradient(135deg, #1f1f1f, #2a1f2d)"
+    background: theme.gradients.page
   };
 
   const cardStyle = {
     padding: "22px",
     borderRadius: "18px",
-    background: "linear-gradient(135deg, rgba(255,141,161,0.12), rgba(173,86,196,0.12))",
+    background: theme.gradients.panel,
     border: `1px solid ${theme.colors.border}`,
-    boxShadow: "0 8px 24px rgba(0,0,0,0.25)"
+    boxShadow: theme.shadows.panel
   };
 
   return (
