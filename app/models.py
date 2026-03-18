@@ -101,7 +101,7 @@ class FollowupCall(Base):
     linked_report_id = Column(Integer, ForeignKey("patient_reports.id"), nullable=True)
     status = Column(String, nullable=False, server_default="PREPARED", index=True)
     script_language = Column(String, nullable=False, server_default="English")
-    tts_voice = Column(String, nullable=False, server_default="nova")
+    tts_voice = Column(String, nullable=False, server_default="alloy")
     script_text = Column(String, nullable=False)
     tts_audio_base64 = Column(String, nullable=True)
     transcript = Column(String, nullable=True)

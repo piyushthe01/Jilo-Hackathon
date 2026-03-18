@@ -310,9 +310,11 @@ def followup_call_is_legacy(call):
     raw_script = (call.script_text or "").strip()
     enriched_script = apply_caller_identity(raw_script, getattr(call, "script_language", None)).strip()
     script_word_count = len(raw_script.split())
+    pending_status = getattr(call, "status", None) in {"PREPARED", "IN_PROGRESS"}
     return (
         not raw_script
         or (call.tts_voice or "") not in VALID_TTS_VOICES
+        or (pending_status and (call.tts_voice or "").lower() == "echo")
         or len(call.tts_audio_base64 or "") < 100
         or script_word_count > 45
         or not enriched_script

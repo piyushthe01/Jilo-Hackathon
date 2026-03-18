@@ -188,7 +188,7 @@ def ensure_schema():
 
         if "followup_calls" in inspector.get_table_names():
             connection.execute(
-                text("ALTER TABLE followup_calls ALTER COLUMN tts_voice SET DEFAULT 'nova'")
+                text("ALTER TABLE followup_calls ALTER COLUMN tts_voice SET DEFAULT 'alloy'")
             )
         if "workflows" in inspector.get_table_names():
             connection.execute(

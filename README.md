@@ -1,356 +1,289 @@
-# 🏥 Indic Voice AI-Driven Patient Engagement Platform
+# Indic Voice AI Patient Engagement Platform
 
-A production-ready medical assistant platform that automates patient follow-ups using AI voice technology, with comprehensive risk assessment and medical safety features.
+An AI-powered care coordination platform that helps hospitals follow up with patients in their preferred language, capture voice responses, surface medical risk, and keep the care team in the loop.
 
-## 🚀 Quick Start
+Built for hackathon-style impact: real patient communication, real multilingual workflows, and real operational value for overworked healthcare teams.
+
+## Why This Matters
+
+Hospitals and clinics lose visibility after discharge.
+
+Patients miss medicines, underreport symptoms, and often cannot comfortably respond in English. Care teams, meanwhile, spend time manually calling patients, documenting updates, and escalating risk too late.
+
+This project turns follow-up care into an automated, multilingual workflow:
+
+- AI places follow-up calls in the patient's language
+- The patient responds with voice
+- Speech is transcribed and normalized
+- Symptoms and medicine adherence are analyzed
+- Risk is detected and alerts/reports are generated
+- The next workflow action is scheduled automatically
+
+## What Makes It Stand Out
+
+- Multilingual voice outreach designed for Indian patient populations
+- End-to-end loop from outreach to transcription to triage to escalation
+- Workflow builder for automated follow-up operations, not just a chatbot demo
+- Doctor-facing summaries, alerts, and inbox views for actionability
+- Built as a usable product with dashboard, queues, scheduling, and patient records
+
+## Core Product Modules
+
+### 1. Patient Dashboard
+- View patient records, language preferences, and history
+- Track follow-ups, alerts, reports, and workflow assignments
+
+### 2. AI Follow-Ups
+- Collect text or audio patient updates
+- Transcribe and normalize patient speech
+- Detect pain, fever, medicine adherence, and risk level
+
+### 3. Workflow Builder
+- Create scheduled follow-up workflows
+- Assign patients automatically by language
+- Run due workflows in batch
+- Prepare outbound AI calls for queued patients
+
+### 4. Automated Calls
+- Generate AI voice calls in supported languages
+- Play opening prompt, pause for patient speech, transcribe the response
+- Display the transcript on the call screen
+- Generate a suitable follow-up reply and close the call politely
+
+### 5. Alerts and Medical Inbox
+- Raise alerts for medium/high risk follow-ups
+- Generate report summaries for the care team
+- Maintain an inbox of patient reports for review and sending
+
+### 6. Disease Detection and Clinical Reasoning
+- Extract symptoms from follow-up text
+- Match likely conditions from a symptom catalog
+- Build grounded summaries using clinical references
+
+## Supported Languages
+
+The project currently supports multilingual patient/workflow flows across:
+
+- Bengali
+- English
+- Gujarati
+- Hindi
+- Kannada
+- Malayalam
+- Marathi
+- Odia
+- Punjabi
+- Tamil
+- Telugu
+- Urdu
+
+## Demo Flow
+
+This is the strongest demo sequence for judges:
+
+1. Add or select a patient with a preferred language.
+2. Open the Workflow Builder and assign the patient to a language-matched follow-up workflow.
+3. Run due workflows to generate a prepared AI call.
+4. Open Automated Calls and play the generated voice prompt.
+5. Speak a patient response through the mic.
+6. Show the live transcript, normalized symptom summary, risk level, and generated AI reply.
+7. Open Alerts or Medical Inbox to show the downstream clinical action.
+
+## System Flow
+
+```mermaid
+flowchart LR
+    A["Patient record + preferred language"] --> B["Workflow Builder"]
+    B --> C["Prepared AI follow-up call"]
+    C --> D["Patient voice response"]
+    D --> E["Speech transcription + normalization"]
+    E --> F["Symptom extraction + risk engine"]
+    F --> G["Alerts + reports + follow-up history"]
+    G --> H["Dashboard / Inbox / Care team action"]
+```
+
+## Tech Stack
+
+### Frontend
+- React 19
+- Vite
+- Material UI
+- Recharts
+- Axios
+- react-media-recorder
+
+### Backend
+- FastAPI
+- SQLAlchemy
+- PostgreSQL
+- APScheduler
+- SlowAPI
+
+### AI and Communications
+- OpenAI for transcription, language normalization, and voice generation
+- ElevenLabs as an optional voice provider path
+- Twilio for WhatsApp alerting
+- SMTP for email notifications
+
+## Repository Structure
+
+```text
+Medical-Assistant/
+|- app/
+|  |- main.py
+|  |- routes.py
+|  |- models.py
+|  |- schemas.py
+|  |- crud.py
+|  |- openai_audio.py
+|  |- openai_followup_automation.py
+|  |- risk_engine.py
+|  |- disease_matcher.py
+|  |- workflow_schedule.py
+|  `- data/
+|- frontend/
+|  |- src/
+|  |  |- pages/
+|  |  |- components/
+|  |  `- api/
+|  `- package.json
+|- tests/
+|- requirements.txt
+`- README.md
+```
+
+## Local Setup
+
+### Prerequisites
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL
+- OpenAI API key
+- Optional: ElevenLabs, Twilio, SMTP credentials
+
+### 1. Clone the repository
 
 ```bash
-# 1. Clone and setup
-git clone <repository-url>
+git clone <your-repo-url>
 cd Medical-Assistant
-
-# 2. Configure environment
-cp .env.example .env
-# Edit .env with your API keys
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Run tests
-python test_connections_fixed.py
-python test_medical_system.py
-
-# 5. Start the application
-uvicorn app.main:app --reload
 ```
 
-## 🌟 Key Features
+### 2. Configure environment variables
 
-### 🤖 AI-Powered Medical Intelligence
-- **Symptom Extraction**: Advanced NLP for medical symptoms with negation handling
-- **Disease Matching**: 41+ conditions with confidence scoring
-- **Risk Assessment**: Age-aware, multi-factor risk algorithm
-- **Voice Synthesis**: Multi-language TTS support (11 Indian languages)
-- **Automated Follow-ups**: Scheduled patient outreach workflows
+Copy the template and update your secrets:
 
-### 🛡️ Medical Safety & Security
-- **Critical Symptom Detection**: Automatic identification of emergency conditions
-- **Age-Based Risk Factors**: Pediatric and geriatric sensitivity
-- **Pain Validation**: 0-10 scale with medical appropriateness checks
-- **Medicine Adherence Tracking**: Non-compliance alerts
-- **Comprehensive Audit Trails**: All medical decisions logged
-
-### 📱 Communication Channels
-- **Voice Calls**: AI-powered automated patient calls with natural conversation
-- **Email Notifications**: Medical alerts to healthcare teams
-- **WhatsApp Integration**: Real-time patient engagement
-- **Clinical Reports**: Automated summary generation
-
-### 🏥 Production Features
-- **Rate Limiting**: API protection with configurable limits
-- **Health Monitoring**: Real-time system metrics and alerts
-- **Database Optimization**: Strategic indexes for performance
-- **Automated Backups**: Daily database backups with retention
-- **Error Handling**: Comprehensive fallbacks and logging
-- **Security**: Input sanitization, SQL injection protection
-
-## 📋 System Architecture
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Patient       │───▶│   AI Voice      │───▶│   Symptom       │
-│   Input         │    │   Processing    │    │   Extraction    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                                        │
-                         ┌─────────────────┐           ▼
-                         │   Risk          │    ┌─────────────────┐
-                         │   Assessment    │◀───│   Disease       │
-                         └─────────────────┘    │   Matching      │
-                                │               └─────────────────┘
-                                ▼
-                         ┌─────────────────┐
-                         │   Medical       │
-                         │   Alerts        │
-                         └─────────────────┘
-                                │
-                                ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Healthcare    │◀───│   Notifications │    │   Clinical      │
-│   Team          │    │   (Email/WhatsApp│   │   Reports       │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+```bash
+copy .env.example .env
 ```
 
-## 🛠️ Technology Stack
-
-- **Backend**: FastAPI, SQLAlchemy, PostgreSQL
-- **AI/ML**: OpenAI GPT-4, ElevenLabs TTS
-- **Scheduling**: APScheduler for automated workflows
-- **Monitoring**: Custom metrics, health checks, logging
-- **Security**: Rate limiting, input validation, audit trails
-- **Deployment**: Systemd services, log rotation, backups
-
-## 🔧 Configuration
-
-### Environment Variables (.env)
+Set at least:
 
 ```env
-# Required
-OPENAI_API_KEY=sk-your-openai-key
-DATABASE_URL=postgresql://user:pass@localhost/medical_assistant
-
-# Optional (for enhanced features)
-ELEVENLABS_API_KEY=sk-your-elevenlabs-key
-SMTP_USERNAME=your-email@gmail.com
-SMTP_PASSWORD=your-app-password
-TWILIO_ACCOUNT_SID=your-twilio-sid
-TWILIO_AUTH_TOKEN=your-twilio-token
+OPENAI_API_KEY=your_openai_api_key
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
+DATABASE_URL=postgresql://username:password@localhost/medical_assistant
+SMTP_USERNAME=your_email@gmail.com
+SMTP_PASSWORD=your_app_password
+TWILIO_ACCOUNT_SID=your_twilio_sid
+TWILIO_AUTH_TOKEN=your_twilio_token
+TWILIO_PHONE_NUMBER=your_twilio_number
 ```
 
-### Rate Limits
+### 3. Start PostgreSQL
 
-| Endpoint | Limit |
-|----------|-------|
-| Health checks | 100/min |
-| Patient creation | 10/min |
-| Follow-up submission | 30/min |
-| Voice calls | 5/min |
-| Report generation | 10/min |
+Create a database for the app. The codebase currently uses PostgreSQL locally and ships with a hardcoded development default in [`app/database.py`](app/database.py).
 
-## 🧪 Testing
+If you are using a different local connection string, update [`app/database.py`](app/database.py) or wire it to your preferred environment-based config before running.
 
-### Comprehensive Test Suite
+### 4. Install backend dependencies
 
 ```bash
-# Connection tests (8 test suites)
-python test_connections_fixed.py
-
-# Medical system tests (3 test suites)
-python test_medical_system.py
-
-# Expected results:
-# ✅ 8/8 connection tests PASSED
-# ✅ 3/3 medical system tests PASSED
-```
-
-### Performance Benchmarks
-
-- **Symptom Processing**: 11.6ms average
-- **Disease Catalog**: 41 diseases loaded in <1ms
-- **API Response**: <100ms for health endpoints
-- **Database Queries**: Optimized with strategic indexes
-
-## 🚢 Deployment
-
-### Automated Deployment (Linux)
-
-```bash
-# Make script executable
-chmod +x deploy.sh
-
-# Run deployment
-./deploy.sh
-
-# Service management
-sudo systemctl status medical-assistant
-sudo systemctl restart medical-assistant
-sudo journalctl -u medical-assistant -f
-```
-
-### Manual Deployment
-
-```bash
-# Setup virtual environment
-python3 -m venv venv
-source venv/bin/activate
 pip install -r requirements.txt
-
-# Database setup
-createdb medical_assistant
-python3 -c "from app.database import Base, engine; Base.metadata.create_all(bind=engine)"
-
-# Start application
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 
-### Docker Deployment (Optional)
-
-```dockerfile
-# Dockerfile included for containerized deployment
-# See deployment documentation for details
-```
-
-## 📊 Monitoring & Maintenance
-
-### Health Monitoring
+### 5. Run the backend
 
 ```bash
-# Health check endpoint
-curl http://localhost:8000/health
-
-# Enhanced health metrics
-curl http://localhost:8000/health/detailed
+uvicorn app.main:app --reload --port 8000
 ```
 
-### Automated Backups
+Backend docs will be available at:
+
+- `http://localhost:8000/docs`
+
+### 6. Install frontend dependencies
 
 ```bash
-# Daily backup (add to crontab: 0 2 * * *)
-./backup.sh
-
-# Backup retention: 30 days
-# Location: /opt/backups/medical-assistant/
+cd frontend
+npm install
 ```
 
-### Log Management
+### 7. Run the frontend
 
 ```bash
-# Application logs
-tail -f logs/medical_assistant_YYYYMMDD.log
-
-# Error logs
-tail -f logs/errors_YYYYMMDD.log
-
-# System logs
-sudo journalctl -u medical-assistant -f
+npm run dev
 ```
 
-## 🎯 Medical Workflow
+Frontend will be available at:
 
-### 1. Patient Onboarding
-- Register patient with demographics
-- Set language preference
-- Configure emergency contacts
-- Assign to follow-up workflows
+- `http://localhost:5173`
 
-### 2. Automated Follow-ups
-- Schedule voice calls
-- AI conducts natural conversation
-- Extract symptoms and pain levels
-- Check medicine adherence
+## Test Commands
 
-### 3. Risk Assessment
-- Analyze symptoms using medical AI
-- Age-adjusted risk calculation
-- Critical symptom detection
-- Generate risk score (LOW/MEDIUM/HIGH)
-
-### 4. Medical Alerts
-- **HIGH Risk**: Immediate team notification
-- **MEDIUM Risk**: Scheduled follow-up
-- **LOW Risk**: Routine monitoring
-- All alerts logged with audit trail
-
-### 5. Clinical Reports
-- Automated report generation
-- Patient history summaries
-- Trend analysis
-- Care team distribution
-
-## 🛡️ Security Features
-
-- ✅ Environment-based secrets management
-- ✅ Input sanitization and validation
-- ✅ SQL injection protection
-- ✅ Rate limiting per endpoint
-- ✅ Comprehensive audit logging
-- ✅ Phone number validation
-- ✅ Medical data encryption ready
-
-## 📚 API Documentation
-
-### Key Endpoints
-
-```
-POST   /patients                    # Create patient
-GET    /patients/{id}               # Get patient details
-POST   /patients/{id}/followups     # Submit follow-up
-GET    /patients/{id}/history       # Patient history
-GET    /health                      # Health check
-GET    /health/detailed             # Detailed metrics
-```
-
-Full API documentation available at `/docs` when running.
-
-## 🎓 Medical Accuracy
-
-### Symptom Detection
-- 95%+ accuracy for common symptoms
-- Negation handling ("no chest pain")
-- Temperature parsing (°F/°C)
-- Pain level extraction
-- Medicine adherence detection
-
-### Risk Assessment
-- Age-based thresholds
-- Critical symptom combinations
-- Medical condition matching
-- Confidence scoring
-- Evidence-based thresholds
-
-### Safety Features
-- Pediatric alerts (age < 18)
-- Geriatric sensitivity (age > 65)
-- Emergency symptom detection
-- Medicine non-adherence alerts
-- Automated escalation protocols
-
-## 📈 Performance
-
-- **Concurrent Users**: 1000+ supported
-- **Response Time**: <100ms average
-- **Database**: Optimized with 15+ indexes
-- **Memory Usage**: <500MB typical
-- **CPU Usage**: <10% under normal load
-
-## 🆘 Support & Troubleshooting
-
-### Common Issues
-
-**Database Connection Failed**
 ```bash
-# Check PostgreSQL status
-sudo systemctl status postgresql
-
-# Verify database exists
-sudo -u postgres psql -c "\l"
+python test_connections_fixed.py
+python test_medical_system.py
+pytest tests
 ```
 
-**API Key Issues**
-```bash
-# Verify .env file
-# Check key format (should start with 'sk-')
-# Test with: python test_connections_fixed.py
-```
+## Key API Areas
 
-**High Memory Usage**
-```bash
-# Check logs for memory leaks
-# Restart service: sudo systemctl restart medical-assistant
-# Monitor: htop or ps aux
-```
+- `GET /patients` - list patients
+- `POST /patients` - create patient
+- `POST /ai-followup` - submit text follow-up
+- `POST /ai-followup/audio` - submit audio follow-up
+- `GET /alerts` - list alerts
+- `GET /workflows` - list workflows
+- `POST /automation/run-due-workflows` - generate due follow-up calls
+- `GET /followup-calls` - inspect prepared/completed AI calls
+- `POST /followup-calls/{call_id}/complete/audio` - complete call from patient audio
+- `GET /reports/inbox` - view generated patient reports
 
-### Getting Help
+## Product Screens
 
-- Check logs: `logs/` directory
-- Health endpoint: `GET /health`
-- Test suite: `python test_connections_fixed.py`
-- System status: `sudo systemctl status medical-assistant`
+The app includes:
 
-## 📄 License
+- Dashboard
+- Patients
+- Followups
+- Alerts
+- AI Followup
+- Workflow Builder
+- Automated Calls
+- Medical Inbox
+- Disease Detection
 
-MIT License - See LICENSE file for details
+## Hackathon Pitch
 
-## 🙏 Acknowledgments
+If a judge asks "Why should this win?", the short answer is:
 
-- OpenAI for GPT-4 and TTS APIs
-- ElevenLabs for voice synthesis
-- FastAPI for the web framework
-- SQLAlchemy for database ORM
+This project solves a real healthcare operations problem, not just an AI novelty problem. It combines multilingual voice AI, workflow automation, and clinical risk visibility into a single product that can help care teams scale follow-up without losing empathy or missing warning signs.
 
----
+## Future Scope
 
-**🎉 Your medical assistant is production-ready!**
+- Real telephony integration for live outbound calling
+- Hospital EMR/EHR integrations
+- Fine-tuned multilingual medical prompting by language
+- Clinician review dashboard for false-positive reduction
+- Patient-specific follow-up plans by diagnosis and discharge type
+- Analytics for adherence, escalation, and recovery trends
 
-*Last Updated: March 2026*
-*Version: 1.0.0*
-*Status: ✅ Production Ready*
+## Notes
+
+- Demo/sample multilingual patients and workflows are seeded at startup.
+- The frontend expects the backend at `http://localhost:8000`.
+- OpenAI-backed features require a valid API key and backend restart after updating `.env`.
+
+## License
+
+MIT

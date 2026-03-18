@@ -8,11 +8,12 @@ SCRIPT_MODEL = "gpt-4o-mini"
 TTS_MODEL = "gpt-4o-mini-tts"
 CALLER_NAME = "Rohit"
 HOSPITAL_NAME = "Wellness Hospital"
-DEFAULT_TTS_VOICE = "echo"
+DEFAULT_TTS_VOICE = "alloy"
 _BASE_VOICE_STYLE = (
-    "Speak as Rohit, a warm, calm, professional male care coordinator from Wellness Hospital. "
-    "Your tone is caring, clear, and reassuring. Deliver the message naturally as if speaking "
-    "on an outbound patient followup call. Do not rush. Be gentle and supportive."
+    "Speak as Rohit, a warm, calm, professional care coordinator from Wellness Hospital. "
+    "Your tone is caring, clear, and reassuring. Prioritize intelligibility over dramatic expression. "
+    "Deliver the message naturally as if speaking on an outbound patient followup call. "
+    "Do not rush. Be gentle and supportive."
 )
 
 # Unicode ranges for Devanagari (Hindi, Marathi, etc.) and Odia scripts.
@@ -101,6 +102,18 @@ def _get_language_tts_instructions(language_label: str | None, script_text: str 
 
     # Default: English
     return _BASE_VOICE_STYLE
+
+
+def _normalize_language_label(language_label: str | None, script_text: str = "") -> str:
+    label = (language_label or "").strip().lower()
+    if not label or label in {"auto", "unknown"}:
+        return _detect_script_language(script_text) or "english"
+    return label
+
+
+def _should_use_elevenlabs(language_label: str | None, script_text: str = "") -> bool:
+    normalized_language = _normalize_language_label(language_label, script_text)
+    return normalized_language in {"english", "en"}
 
 
 # Keep backward-compat alias so any external import of VOICE_STYLE_INSTRUCTIONS still works.
@@ -197,7 +210,8 @@ def generate_followup_call_script(patient, workflow):
         "The caller is a male care coordinator named Rohit from Wellness Hospital. "
         "Keep it warm, simple, and under 45 words. Start by clearly introducing Rohit and Wellness Hospital, "
         "briefly mention the followup goal, ask 1 short question about symptoms or medicine adherence, and stop so the patient can respond. "
-        "End with a question. Do not add bullet points, stage directions, or any closing thanks yet."
+        "End with a question. Use the native writing script for the selected language and never write Indic languages in English letters. "
+        "Do not add bullet points, stage directions, or any closing thanks yet."
     )
     user_input = (
         f"Caller name: {CALLER_NAME}\n"
@@ -238,7 +252,8 @@ def generate_followup_call_reply(patient, workflow, transcript, normalized_messa
         "Return only one short spoken reply in the patient's preferred language. "
         "Acknowledge what the patient said, mention the appropriate next step based on the risk level, "
         "and end by politely thanking the patient on behalf of Rohit from Wellness Hospital. "
-        "Keep it under 55 words. Do not add bullet points or stage directions."
+        "Keep it under 55 words. Use the native writing script for the selected language and never write Indic languages in English letters. "
+        "Do not add bullet points or stage directions."
     )
     user_input = (
         f"Caller name: {CALLER_NAME}\n"
@@ -291,9 +306,11 @@ def synthesize_followup_call_audio(
     if len(script_text) > 1000:
         raise ValueError(f"Script too long: {len(script_text)} characters (max 1000)")
 
-    # Try ElevenLabs first if key is available
+    # Prefer OpenAI TTS for multilingual scripts because pronunciation is more
+    # controllable through explicit language instructions. ElevenLabs remains a
+    # fallback for English output when configured.
     elevenlabs_key = os.getenv("ELEVENLABS_API_KEY") or os.getenv("ELEVEN_LABS_API_KEY")
-    if elevenlabs_key:
+    if elevenlabs_key and _should_use_elevenlabs(language_label, script_text):
         voice_id = "pNInz6obpgDQGcFmaJgB"  # "Adam" - warm male voice
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
         headers = {
@@ -305,8 +322,10 @@ def synthesize_followup_call_audio(
             "text": script_text,
             "model_id": "eleven_multilingual_v2",
             "voice_settings": {
-                "stability": 0.5,
-                "similarity_boost": 0.8
+                "stability": 0.35,
+                "similarity_boost": 0.55,
+                "style": 0.0,
+                "use_speaker_boost": True
             }
         }
         try:

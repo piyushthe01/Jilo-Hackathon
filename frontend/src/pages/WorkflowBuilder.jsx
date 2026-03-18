@@ -412,7 +412,7 @@ function WorkflowBuilder() {
         <div>
           <p style={{ margin: "0 0 8px", color: theme.colors.mutedText }}>Caller Identity</p>
           <p style={{ margin: 0, color: theme.colors.text, lineHeight: 1.7 }}>
-            Automated calls are now generated as <b>Rohit</b> from <b>Wellness Hospital</b> using a male ElevenLabs voice.
+            Automated calls are now generated as <b>Rohit</b> from <b>Wellness Hospital</b> using a multilingual AI voice path tuned for clearer pronunciation.
           </p>
         </div>
         <div
@@ -424,7 +424,7 @@ function WorkflowBuilder() {
             fontWeight: "700"
           }}
         >
-          Voice: Adam (male)
+          Voice: Multilingual AI
         </div>
       </div>
 

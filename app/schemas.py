@@ -57,7 +57,7 @@ class FollowupCallCreate(BaseModel):
     patient_id: int
     status: str = "PREPARED"
     script_language: str
-    tts_voice: str = "nova"
+    tts_voice: str = "alloy"
     script_text: str
     tts_audio_base64: str | None = None
     transcript: str | None = None
